@@ -15,7 +15,7 @@ export const site = {
   region: "Meta",
   country: "CO",
   geo: { lat: 4.142, lng: -73.6266 },
-  hours: { days: "Lunes a sábado", open: "07:00", close: "18:00", display: "Lun – Sáb · 7:00 a. m. – 6:00 p. m." },
+  hours: { days: "Lunes a sábado", open: "07:00", close: "18:00", display: "Lunes a sábado, 7:00 a. m. a 6:00 p. m." },
   social: {
     facebook: "https://www.facebook.com/PuertasAutomaticasDelLlano/",
   },
@@ -259,7 +259,7 @@ export const services: Service[] = [
       "Hacemos mantenimiento preventivo y reparación de puertas automáticas y eléctricas en Villavicencio y el Meta: motores, tarjetas electrónicas, fotoceldas, rieles y controles, de todas las marcas.",
     body: [
       "Una puerta automática trabaja todos los días a la intemperie. El mantenimiento preventivo (limpieza, lubricación, ajuste de límites y revisión eléctrica) evita daños mayores y alarga la vida del motor.",
-      "Cuando la puerta falla, diagnosticamos la causa —motor, tarjeta, sensores o parte mecánica— y la reparamos con repuestos de la misma marca.",
+      "Cuando la puerta falla, diagnosticamos la causa (motor, tarjeta, sensores o parte mecánica) y la reparamos con repuestos de la misma marca.",
     ],
     benefits: [
       "Diagnóstico de motores y tarjetas electrónicas",
@@ -351,6 +351,6 @@ export const faqs = [
   },
   {
     q: "¿Cuál es el horario de atención?",
-    a: `${site.hours.display}. Puedes escribirnos por WhatsApp al ${site.phoneDisplay} en cualquier momento.`,
+    a: `Atendemos de lunes a sábado, de 7:00 a. m. a 6:00 p. m. Por WhatsApp puedes escribirnos al ${site.phoneDisplay} en cualquier momento.`,
   },
 ];

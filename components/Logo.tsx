@@ -1,20 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 
-export function Logo({ light = false, className = "" }: { light?: boolean; className?: string }) {
+export function Logo({ onPetrol = false }: { onPetrol?: boolean }) {
   return (
-    <Link href="/" className={`group flex items-center gap-2.5 ${className}`} aria-label="Puertas Automáticas del Llano — inicio">
-      <Image
-        src="/brand/logo-cubo.webp"
-        alt=""
-        width={500}
-        height={340}
-        priority
-        className="h-9 w-auto transition-transform duration-500 group-hover:-rotate-6 group-hover:scale-110"
-      />
-      <span className={`font-display leading-[1.05] font-bold tracking-tight ${light ? "text-white" : "text-navy-800"}`}>
-        <span className="block text-[0.95rem]">Puertas Automáticas</span>
-        <span className={`block text-[0.7rem] font-semibold tracking-[0.2em] uppercase ${light ? "text-brand-lime" : "text-brand-teal"}`}>del Llano</span>
+    <Link href="/" className="flex items-center gap-3" aria-label="Puertas Automáticas del Llano, ir al inicio">
+      <Image src="/brand/logo-cubo.webp" alt="" width={500} height={340} priority className="h-9 w-auto" />
+      <span className={`font-display leading-none font-semibold tracking-tight ${onPetrol ? "text-on-petrol" : "text-ink"}`}>
+        <span className="block text-[1.02rem]">Puertas Automáticas</span>
+        <span className={`mt-1 block text-[0.78rem] font-medium tracking-normal ${onPetrol ? "text-on-petrol-soft" : "text-ink-soft"}`}>
+          del Llano
+        </span>
       </span>
     </Link>
   );

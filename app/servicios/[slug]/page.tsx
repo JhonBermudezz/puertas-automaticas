@@ -1,15 +1,12 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowUpRight, CircleCheck, MapPin } from "lucide-react";
+import { ArrowUpRight, Check, MapPin, WhatsappLogo } from "@phosphor-icons/react/dist/ssr";
 import { PageHero } from "@/components/PageHero";
-import { Reveal } from "@/components/Reveal";
 import { FAQ } from "@/components/FAQ";
 import { CTA } from "@/components/CTA";
 import { JsonLd } from "@/components/JsonLd";
 import { VideoGallery } from "@/components/VideoGallery";
-import { WhatsAppIcon } from "@/components/BrandIcons";
 import { faqSchema, pageMetadata, serviceSchema } from "@/lib/seo";
 import { coverage, services, videos, whatsappUrl } from "@/lib/site";
 
@@ -33,13 +30,13 @@ export default async function ServicePage({ params }: PageProps<"/servicios/[slu
 
   const msg = `Hola, quiero cotizar ${s.name.toLowerCase()}.`;
   const related = services.filter((x) => x.slug !== s.slug).slice(0, 3);
-  const vids = videos.filter((v) => s.video && (v.slug === s.video || v.type === videos.find((x) => x.slug === s.video)?.type)).slice(0, 5);
+  const videoType = videos.find((v) => v.slug === s.video)?.type;
+  const vids = videoType ? videos.filter((v) => v.type === videoType) : [];
 
   return (
     <>
       <JsonLd data={[serviceSchema(s), faqSchema(s.faqs)]} />
       <PageHero
-        eyebrow={s.name}
         title={s.h1}
         intro={s.answer}
         image={s.image}
@@ -49,87 +46,79 @@ export default async function ServicePage({ params }: PageProps<"/servicios/[slu
           { name: s.name, path: `/servicios/${s.slug}/` },
         ]}
       >
-        <a
-          href={whatsappUrl(msg)}
-          target="_blank"
-          rel="noopener"
-          className="inline-flex items-center gap-2.5 rounded-full bg-whatsapp px-7 py-4 font-semibold text-navy-950 shadow-xl shadow-whatsapp/30 transition hover:-translate-y-0.5"
-        >
-          <WhatsAppIcon className="size-5" /> Cotizar {s.name.toLowerCase()}
+        <a href={whatsappUrl(msg)} target="_blank" rel="noopener" className="btn bg-petrol-900 text-on-petrol hover:bg-petrol-800">
+          <WhatsappLogo size={20} /> Cotizar por WhatsApp
         </a>
       </PageHero>
 
-      <section className="py-24">
-        <div className="container-x grid gap-16 lg:grid-cols-[1.4fr_1fr]">
-          <Reveal>
-            <h2 className="text-3xl font-bold text-navy-800 sm:text-4xl">¿Cómo funciona?</h2>
+      <section aria-labelledby="como-funciona" className="container-x pb-24 lg:pb-32">
+        <div className="grid gap-14 lg:grid-cols-[1.4fr_1fr]">
+          <div>
+            <h2 id="como-funciona" className="text-3xl font-semibold text-ink sm:text-[2.4rem]">Cómo funciona</h2>
             {s.body.map((p) => (
-              <p key={p} className="mt-5 text-lg leading-relaxed text-muted">{p}</p>
+              <p key={p} className="mt-5 max-w-[65ch] text-lg leading-relaxed text-ink-soft">{p}</p>
             ))}
-            <h2 className="mt-14 text-2xl font-bold text-navy-800 sm:text-3xl">Lo que incluye</h2>
-            <ul className="mt-6 grid gap-4 sm:grid-cols-2">
+            <h2 className="mt-14 text-2xl font-semibold text-ink sm:text-3xl">Qué incluye</h2>
+            <ul className="mt-6 grid gap-x-8 gap-y-4 sm:grid-cols-2">
               {s.benefits.map((b) => (
-                <li key={b} className="flex gap-3 rounded-2xl bg-white p-5 shadow-lg shadow-navy-900/5 ring-1 ring-navy-800/5">
-                  <CircleCheck className="size-6 shrink-0 text-brand-green" />
-                  <span className="font-medium text-navy-800">{b}</span>
+                <li key={b} className="flex gap-3 border-t border-line pt-4 text-ink">
+                  <Check size={20} weight="bold" className="mt-0.5 shrink-0 text-petrol-700" />
+                  {b}
                 </li>
               ))}
             </ul>
-          </Reveal>
-
-          <Reveal delay={0.1} className="space-y-6 lg:sticky lg:top-24 lg:self-start">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-3xl shadow-2xl shadow-navy-900/15">
-              <Image src={s.image} alt={s.imageAlt} fill sizes="(min-width:1024px) 35vw, 100vw" className="object-cover" />
-            </div>
-            <div className="rounded-3xl bg-navy-900 p-7 text-white">
-              <h2 className="text-lg font-bold">Ideal para</h2>
-              <ul className="mt-4 flex flex-wrap gap-2">
-                {s.idealFor.map((x) => (
-                  <li key={x} className="rounded-full bg-white/10 px-4 py-1.5 text-sm">{x}</li>
-                ))}
-              </ul>
-              <h2 className="mt-7 text-lg font-bold">Dónde lo instalamos</h2>
-              <p className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-sm text-white/65">
-                {coverage.map((c) => (
-                  <span key={c} className="flex items-center gap-1"><MapPin className="size-3.5 text-brand-lime" />{c}</span>
-                ))}
-              </p>
-            </div>
-          </Reveal>
+          </div>
+          <aside className="self-start rounded-[var(--radius-panel)] bg-petrol-900 p-8 text-on-petrol lg:sticky lg:top-24">
+            <h2 className="font-sans text-sm font-semibold tracking-normal text-white">Ideal para</h2>
+            <ul className="mt-3 grid gap-1.5">
+              {s.idealFor.map((x) => (
+                <li key={x} className="text-on-petrol-soft">{x}</li>
+              ))}
+            </ul>
+            <h2 className="mt-8 font-sans text-sm font-semibold tracking-normal text-white">Dónde lo instalamos</h2>
+            <ul className="mt-3 grid grid-cols-2 gap-x-4 gap-y-1.5">
+              {coverage.map((c) => (
+                <li key={c} className="flex items-center gap-1.5 text-on-petrol-soft">
+                  <MapPin size={14} className="text-lime" /> {c}
+                </li>
+              ))}
+            </ul>
+            <a href={whatsappUrl(msg)} target="_blank" rel="noopener" className="btn mt-8 w-full bg-white text-petrol-900 hover:bg-on-petrol">
+              <WhatsappLogo size={20} /> Cotizar por WhatsApp
+            </a>
+          </aside>
         </div>
       </section>
 
       {vids.length > 0 && (
-        <section className="bg-navy-950 py-24 text-white">
-          <div className="container-x">
-            <h2 className="text-3xl font-bold sm:text-4xl">Videos de {s.name.toLowerCase()} instaladas</h2>
-            <div className="mt-10"><VideoGallery videos={vids} /></div>
+        <section aria-labelledby="videos" className="container-x pb-24 lg:pb-32">
+          <h2 id="videos" className="text-3xl font-semibold text-ink sm:text-[2.4rem]">Videos de {s.name.toLowerCase()} instaladas</h2>
+          <div className="mt-10">
+            <VideoGallery videos={vids} />
           </div>
         </section>
       )}
 
       <FAQ items={s.faqs} title={`Preguntas sobre ${s.name.toLowerCase()}`} />
 
-      <section className="pb-24">
-        <div className="container-x">
-          <h2 className="text-2xl font-bold text-navy-800">Otros servicios</h2>
-          <ul className="mt-6 grid gap-4 md:grid-cols-3">
-            {related.map((r) => (
-              <li key={r.slug}>
-                <Link href={`/servicios/${r.slug}/`} className="group flex h-full items-start justify-between gap-4 rounded-3xl bg-white p-6 shadow-lg shadow-navy-900/5 ring-1 ring-navy-800/5 transition hover:-translate-y-1 hover:shadow-xl">
-                  <span>
-                    <span className="block text-lg font-bold text-navy-800">{r.name}</span>
-                    <span className="mt-1 block text-sm text-muted">{r.short}</span>
-                  </span>
-                  <ArrowUpRight className="size-5 shrink-0 text-brand-teal transition group-hover:rotate-45" />
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
+      <section aria-labelledby="otros" className="container-x pb-24 lg:pb-32">
+        <h2 id="otros" className="text-2xl font-semibold text-ink">Otros servicios</h2>
+        <ul className="mt-6 grid divide-y divide-line border-y border-line md:grid-cols-3 md:divide-x md:divide-y-0">
+          {related.map((r) => (
+            <li key={r.slug}>
+              <Link href={`/servicios/${r.slug}/`} className="group flex h-full items-start justify-between gap-4 py-6 md:px-6 md:first:pl-0">
+                <span>
+                  <span className="block font-display text-lg font-semibold text-ink">{r.name}</span>
+                  <span className="mt-1 block text-ink-soft">{r.short}</span>
+                </span>
+                <ArrowUpRight size={20} className="shrink-0 text-ink-soft transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-ink" />
+              </Link>
+            </li>
+          ))}
+        </ul>
       </section>
 
-      <CTA title={`¿Necesitas ${s.name.toLowerCase()}?`} message={msg} />
+      <CTA title={`¿Necesitas ${s.name.toLowerCase()}?`} message={msg} image={s.image} />
     </>
   );
 }

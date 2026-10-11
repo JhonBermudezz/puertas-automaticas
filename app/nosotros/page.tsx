@@ -1,9 +1,5 @@
 import Image from "next/image";
-import { Handshake, Scale, ShieldCheck, Smile, Sparkles } from "lucide-react";
 import { PageHero } from "@/components/PageHero";
-import { Reveal } from "@/components/Reveal";
-import { Stats } from "@/components/Stats";
-import { Founder } from "@/components/Founder";
 import { CTA } from "@/components/CTA";
 import { JsonLd } from "@/components/JsonLd";
 import { businessId, pageMetadata } from "@/lib/seo";
@@ -17,11 +13,11 @@ export const metadata = pageMetadata({
 });
 
 const values = [
-  { icon: Smile, name: "Satisfacción" },
-  { icon: Scale, name: "Ética" },
-  { icon: Handshake, name: "Colaboración" },
-  { icon: ShieldCheck, name: "Honestidad" },
-  { icon: Sparkles, name: "Excelencia" },
+  { name: "Seriedad", text: "Cumplimos lo que cotizamos, en el tiempo acordado." },
+  { name: "Honestidad", text: "Diagnosticamos la falla real y te decimos lo que de verdad necesita tu puerta." },
+  { name: "Ética", text: "Trabajamos con repuestos de la misma marca y respondemos por la instalación." },
+  { name: "Colaboración", text: "Escuchamos al cliente y adaptamos la solución a su espacio y su uso." },
+  { name: "Excelencia", text: "Cuidamos los detalles de montaje, cableado y seguridad en cada proyecto." },
 ];
 
 export default function NosotrosPage() {
@@ -43,74 +39,83 @@ export default function NosotrosPage() {
         }}
       />
       <PageHero
-        eyebrow="Nosotros"
-        title={<>Más de {site.yearsExperience} años <span className="text-gradient-light">abriendo puertas</span> en el Llano</>}
+        title={`Más de ${site.yearsExperience} años automatizando puertas en el Llano`}
         intro="Puertas Automáticas del Llano es una empresa de Villavicencio especializada en la automatización de puertas para hogares, comercios e industrias."
-        image="/proyectos/valla-puertas-automaticas-del-llano.webp"
+        image="/proyectos/tecnicos-instalando-puerta-automatica-meta.webp"
+        imageAlt="Técnicos de Puertas Automáticas del Llano instalando una puerta en el Meta"
         crumbs={[{ name: "Nosotros", path: "/nosotros/" }]}
       />
 
-      <section className="py-24 sm:py-32">
-        <div className="container-x grid items-center gap-16 lg:grid-cols-2">
-          <Reveal>
-            <h2 className="text-3xl font-bold text-navy-800 sm:text-4xl">Quiénes somos</h2>
-            <p className="mt-5 text-lg leading-relaxed text-muted">
-              Somos una empresa con {site.yearsExperience} años de experiencia en automatización de puertas. Ofrecemos soluciones
-              personalizadas para hogares, comercios e industrias, con un equipo capacitado y comprometido con la calidad, la
-              eficiencia y la seguridad en cada proyecto.
+      <section aria-labelledby="quienes" className="container-x pb-24 lg:pb-32">
+        <div className="grid gap-14 lg:grid-cols-[1fr_1fr]">
+          <div>
+            <h2 id="quienes" className="text-3xl font-semibold text-ink sm:text-[2.4rem]">Quiénes somos</h2>
+            <p className="mt-6 max-w-[62ch] text-lg leading-relaxed text-ink-soft">
+              Tenemos {site.yearsExperience} años de experiencia en automatización de puertas. Ofrecemos soluciones a la medida para
+              hogares, comercios e industrias, con un equipo comprometido con la calidad, la eficiencia y la seguridad en cada proyecto.
             </p>
-            <p className="mt-4 text-lg leading-relaxed text-muted">
-              Nos adaptamos a las necesidades de cada cliente y trabajamos con materiales y tecnología de última generación para
-              garantizar la durabilidad y fiabilidad de cada sistema.
+            <p className="mt-4 max-w-[62ch] text-lg leading-relaxed text-ink-soft">
+              Nos adaptamos a lo que necesita cada cliente y trabajamos con materiales y equipos de marcas reconocidas para que cada
+              sistema sea durable y confiable.
             </p>
-            <div className="mt-10 grid gap-5 sm:grid-cols-2">
-              <div className="rounded-3xl bg-white p-6 shadow-lg shadow-navy-900/5 ring-1 ring-navy-800/5">
-                <h3 className="font-bold text-navy-800">Misión</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted">
-                  Brindar soluciones integrales en automatización de puertas con un servicio personalizado y de excelencia,
-                  productos de alta calidad, tecnología avanzada, seguridad y durabilidad.
-                </p>
-              </div>
-              <div className="rounded-3xl bg-white p-6 shadow-lg shadow-navy-900/5 ring-1 ring-navy-800/5">
-                <h3 className="font-bold text-navy-800">Visión</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted">
-                  Ser la empresa líder en automatización de puertas a nivel nacional, con soluciones innovadoras que superen las
-                  expectativas de nuestros clientes.
-                </p>
-              </div>
+          </div>
+          <dl className="grid content-start gap-8">
+            <div className="border-t-2 border-ink pt-5">
+              <dt className="font-display text-xl font-semibold text-ink">Misión</dt>
+              <dd className="mt-2 max-w-[56ch] text-ink-soft">
+                Brindar soluciones integrales en automatización de puertas con un servicio personalizado, productos de calidad,
+                tecnología actual, seguridad y durabilidad.
+              </dd>
             </div>
-          </Reveal>
-          <Reveal delay={0.1} className="relative">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] shadow-2xl shadow-navy-900/20">
-              <Image src="/proyectos/valla-puertas-automaticas-del-llano.webp" alt="Valla publicitaria de Puertas Automáticas del Llano en el Meta" fill sizes="(min-width:1024px) 45vw, 100vw" className="object-cover" />
+            <div className="border-t-2 border-ink pt-5">
+              <dt className="font-display text-xl font-semibold text-ink">Visión</dt>
+              <dd className="mt-2 max-w-[56ch] text-ink-soft">
+                Ser la empresa líder en automatización de puertas a nivel nacional, con soluciones que superen las expectativas de
+                nuestros clientes.
+              </dd>
             </div>
-            <div className="absolute -bottom-6 -left-6 -z-10 size-40 rounded-3xl bg-brand-gradient" aria-hidden="true" />
-          </Reveal>
+          </dl>
         </div>
       </section>
 
-      <Stats />
-
-      <section className="py-24 sm:py-32">
-        <div className="container-x text-center">
-          <h2 className="text-3xl font-bold text-navy-800 sm:text-4xl">Nuestros valores</h2>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-muted">
-            Dos pilares guían nuestro trabajo diario: <strong className="text-navy-800">seriedad y honestidad</strong>.
-          </p>
-          <ul className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
-            {values.map(({ icon: Icon, name }, i) => (
-              <Reveal as="li" key={name} delay={i * 0.06} className="group rounded-3xl bg-white p-8 shadow-lg shadow-navy-900/5 ring-1 ring-navy-800/5 transition hover:-translate-y-1">
-                <span className="mx-auto grid size-14 place-items-center rounded-2xl bg-brand-gradient text-white transition duration-500 group-hover:rotate-12">
-                  <Icon className="size-7" />
-                </span>
-                <h3 className="mt-4 font-bold text-navy-800">{name}</h3>
-              </Reveal>
-            ))}
-          </ul>
+      <section aria-labelledby="fundador" className="container-x pb-24 lg:pb-32">
+        <div className="grid overflow-hidden rounded-[var(--radius-panel)] bg-petrol-900 lg:grid-cols-[1fr_1.2fr]">
+          <div className="relative min-h-80 p-3 lg:p-4">
+            <div className="relative size-full min-h-[18rem] overflow-hidden rounded-[var(--radius-frame)]">
+              <Image
+                src="/proyectos/carlos-guarama-talanquera-villavicencio.webp"
+                alt={`${site.founder}, fundador de Puertas Automáticas del Llano`}
+                fill
+                sizes="(min-width:1024px) 45vw, 100vw"
+                className="object-cover"
+              />
+            </div>
+          </div>
+          <div className="flex flex-col justify-center px-7 py-12 sm:px-12 lg:pr-16 lg:pl-10">
+            <blockquote className="font-display text-2xl leading-snug font-medium text-white sm:text-[1.75rem]">
+              “Mi objetivo es dar un servicio técnico que detecte y solucione cualquier falla eléctrica, electrónica o mecánica con eficacia
+              y profesionalismo.”
+            </blockquote>
+            <div className="mt-8">
+              <h2 id="fundador" className="font-sans text-lg font-semibold tracking-normal text-white">{site.founder}</h2>
+              <p className="text-on-petrol-soft">Fundador y técnico en electrónica</p>
+            </div>
+          </div>
         </div>
       </section>
 
-      <Founder />
+      <section aria-labelledby="valores" className="container-x pb-24 lg:pb-32">
+        <h2 id="valores" className="text-3xl font-semibold text-ink sm:text-[2.4rem]">Nuestros valores</h2>
+        <dl className="mt-12 grid gap-x-10 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">
+          {values.map((v) => (
+            <div key={v.name} className="border-t border-line pt-5">
+              <dt className="font-display text-xl font-semibold text-ink">{v.name}</dt>
+              <dd className="mt-2 text-ink-soft">{v.text}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+
       <CTA />
     </>
   );

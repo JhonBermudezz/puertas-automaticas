@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Sora } from "next/font/google";
+import { Geist, Schibsted_Grotesk } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -8,8 +8,8 @@ import { JsonLd } from "@/components/JsonLd";
 import { localBusinessSchema } from "@/lib/seo";
 import { site } from "@/lib/site";
 
-const sora = Sora({ subsets: ["latin"], variable: "--font-sora", display: "swap" });
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
+const display = Schibsted_Grotesk({ subsets: ["latin"], variable: "--font-schibsted", display: "swap" });
+const text = Geist({ subsets: ["latin"], variable: "--font-geist", display: "swap" });
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -32,16 +32,16 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0b2236",
+  themeColor: "#f4f6f5",
   width: "device-width",
   initialScale: 1,
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es-CO" className={`${sora.variable} ${inter.variable}`}>
+    <html lang="es-CO" className={`${display.variable} ${text.variable}`}>
       <body>
-        <a href="#contenido" className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[70] focus:rounded-full focus:bg-white focus:px-4 focus:py-2">
+        <a href="#contenido" className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[70] focus:rounded-full focus:bg-surface focus:px-4 focus:py-2 focus:ring-1 focus:ring-line">
           Saltar al contenido
         </a>
         <JsonLd data={localBusinessSchema()} />

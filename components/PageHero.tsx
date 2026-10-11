@@ -1,11 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronRight } from "lucide-react";
+import { CaretRight } from "@phosphor-icons/react/dist/ssr";
 import { JsonLd } from "./JsonLd";
 import { breadcrumbSchema } from "@/lib/seo";
 
 export function PageHero({
-  eyebrow,
   title,
   intro,
   image,
@@ -13,8 +12,7 @@ export function PageHero({
   crumbs,
   children,
 }: {
-  eyebrow: string;
-  title: React.ReactNode;
+  title: string;
   intro?: string;
   image?: string;
   imageAlt?: string;
@@ -23,35 +21,33 @@ export function PageHero({
 }) {
   const all = [{ name: "Inicio", path: "/" }, ...crumbs];
   return (
-    <section className="relative isolate overflow-hidden bg-navy-950 pt-36 pb-20 text-white sm:pt-44 sm:pb-28">
+    <section className="container-x pt-6 pb-16 lg:pt-10 lg:pb-24">
       <JsonLd data={breadcrumbSchema(all)} />
-      {image && (
-        <>
-          <Image src={image} alt={imageAlt} fill priority sizes="100vw" className="-z-10 object-cover opacity-40" />
-          <div className="absolute inset-0 -z-10 bg-gradient-to-r from-navy-950 via-navy-950/85 to-navy-950/40" />
-        </>
-      )}
-      <div className="absolute inset-0 -z-10 bg-steps opacity-40" aria-hidden="true" />
-      <div className="absolute -bottom-40 -left-20 -z-10 size-[30rem] rounded-full bg-brand-teal/30 blur-3xl" aria-hidden="true" />
-      <div className="container-x">
-        <nav aria-label="Ruta de navegación">
-          <ol className="flex flex-wrap items-center gap-1.5 text-sm text-white/55">
-            {all.map((c, i) => (
-              <li key={c.path} className="flex items-center gap-1.5">
-                {i > 0 && <ChevronRight className="size-3.5" aria-hidden="true" />}
-                {i < all.length - 1 ? (
-                  <Link href={c.path} className="transition hover:text-white">{c.name}</Link>
-                ) : (
-                  <span aria-current="page" className="text-white/85">{c.name}</span>
-                )}
-              </li>
-            ))}
-          </ol>
-        </nav>
-        <p className="mt-8 animate-rise text-sm font-semibold tracking-wider text-brand-lime uppercase">{eyebrow}</p>
-        <h1 className="mt-3 max-w-4xl animate-rise text-4xl leading-[1.05] font-bold [animation-delay:100ms] sm:text-5xl lg:text-6xl">{title}</h1>
-        {intro && <p className="mt-6 max-w-2xl animate-rise text-lg leading-relaxed text-white/70 [animation-delay:200ms] sm:text-xl">{intro}</p>}
-        {children && <div className="mt-9 animate-rise [animation-delay:300ms]">{children}</div>}
+      <nav aria-label="Ruta de navegación">
+        <ol className="flex flex-wrap items-center gap-1.5 text-sm text-ink-soft">
+          {all.map((c, i) => (
+            <li key={c.path} className="flex items-center gap-1.5">
+              {i > 0 && <CaretRight size={12} aria-hidden="true" />}
+              {i < all.length - 1 ? (
+                <Link href={c.path} className="transition-colors hover:text-ink">{c.name}</Link>
+              ) : (
+                <span aria-current="page" className="text-ink">{c.name}</span>
+              )}
+            </li>
+          ))}
+        </ol>
+      </nav>
+      <div className={`mt-8 grid items-center gap-10 ${image ? "lg:grid-cols-[1fr_1fr] lg:gap-14" : ""}`}>
+        <div className="animate-copy-in">
+          <h1 className="max-w-[20ch] text-[2.4rem] font-semibold text-ink sm:text-5xl xl:text-[3.4rem]">{title}</h1>
+          {intro && <p className="mt-6 max-w-[56ch] text-lg leading-relaxed text-ink-soft">{intro}</p>}
+          {children && <div className="mt-9">{children}</div>}
+        </div>
+        {image && (
+          <div className="relative aspect-[4/3] animate-frame-open overflow-hidden rounded-[var(--radius-frame)] bg-petrol-950">
+            <Image src={image} alt={imageAlt} fill priority sizes="(min-width:1024px) 50vw, 100vw" className="object-cover" />
+          </div>
+        )}
       </div>
     </section>
   );

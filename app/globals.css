@@ -1,104 +1,67 @@
 @import "tailwindcss";
 
-/* Paleta derivada del logo: azul profundo → teal → verde → lima */
+/*
+ * Sistema institucional: fondo gris frío claro, verde petróleo en paneles grandes,
+ * texto casi negro verdoso y lima solo como acento puntual. Sin degradados.
+ */
 @theme {
-  --color-navy-950: #071726;
-  --color-navy-900: #0b2236;
-  --color-navy-800: #0f2a44;
-  --color-navy-700: #163a5c;
-  --color-brand-blue: #1f5e8c;
-  --color-brand-teal: #14898a;
-  --color-brand-green: #3fa65a;
-  --color-brand-lime: #b8d432;
-  --color-whatsapp: #25d366;
-  --color-ink: #0b1220;
-  --color-paper: #f5f8fa;
-  --color-muted: #5b6b7c;
+  --color-ground: #f4f6f5;
+  --color-surface: #ffffff;
+  --color-line: #dde3e0;
+  --color-ink: #0e1a17;
+  --color-ink-soft: #4a5753;
+  --color-petrol-950: #0a2a24;
+  --color-petrol-900: #0f3b33;
+  --color-petrol-800: #154a40;
+  --color-petrol-700: #1d5c50;
+  --color-on-petrol: #e8efec;
+  --color-on-petrol-soft: #a9bdb6;
+  --color-lime: #8db33a;
+  --color-lime-soft: #c9dc93;
 
-  --font-display: var(--font-sora), ui-sans-serif, system-ui, sans-serif;
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-schibsted), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
 
-  --animate-marquee: marquee 40s linear infinite;
-  --animate-pulse-ring: pulse-ring 2.4s cubic-bezier(0.2, 0.6, 0.4, 1) infinite;
-  --animate-float: float 6s ease-in-out infinite;
-  --animate-rise: rise 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
-  --animate-scroll-dot: scroll-dot 1.8s ease-in-out infinite;
+  --radius-panel: 28px;
+  --radius-frame: 20px;
 
-  @keyframes marquee {
-    from { transform: translateX(0); }
-    to { transform: translateX(-50%); }
-  }
-  @keyframes pulse-ring {
-    0% { transform: scale(1); opacity: 0.6; }
-    80%, 100% { transform: scale(1.7); opacity: 0; }
-  }
-  @keyframes rise {
-    from { opacity: 0; transform: translateY(28px); filter: blur(6px); }
-    to { opacity: 1; transform: translateY(0); filter: blur(0); }
-  }
-  @keyframes scroll-dot {
-    0% { transform: translateY(0); opacity: 1; }
-    70% { transform: translateY(14px); opacity: 0; }
-    100% { opacity: 0; }
-  }
-  @keyframes float {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-  }
-}
-
-:root {
-  --brand-gradient: linear-gradient(120deg, #1f5e8c 0%, #14898a 45%, #3fa65a 75%, #b8d432 100%);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 html {
   scroll-behavior: smooth;
   -webkit-tap-highlight-color: transparent;
+  scrollbar-color: #9fb0aa var(--color-ground);
 }
 
 body {
-  background: var(--color-paper);
+  background: var(--color-ground);
   color: var(--color-ink);
   font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
 h1, h2, h3, h4 {
   font-family: var(--font-display);
-  letter-spacing: -0.02em;
+  letter-spacing: -0.025em;
+  line-height: 1.08;
   text-wrap: balance;
 }
 
 p { text-wrap: pretty; }
 
-::selection { background: #b8d432; color: #071726; }
+::selection { background: var(--color-petrol-900); color: var(--color-on-petrol); }
 
-@utility text-gradient {
-  background: var(--brand-gradient);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+:focus-visible {
+  outline: 2px solid var(--color-lime);
+  outline-offset: 3px;
+  border-radius: 6px;
 }
 
-/* Variante más luminosa para fondos oscuros (contraste AA) */
-@utility text-gradient-light {
-  background: linear-gradient(120deg, #5cc8e6 0%, #2fd1b8 45%, #7ed957 75%, #d4ec5a 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-@utility bg-brand-gradient {
-  background: var(--brand-gradient);
-}
-
-/* Patrón de "escalones" inspirado en el logo */
-@utility bg-steps {
-  background-image:
-    linear-gradient(135deg, rgb(255 255 255 / 0.04) 25%, transparent 25%),
-    linear-gradient(225deg, rgb(255 255 255 / 0.04) 25%, transparent 25%);
-  background-size: 48px 48px;
-}
+a { text-underline-offset: 0.2em; }
 
 @utility container-x {
   width: 100%;
@@ -110,8 +73,26 @@ p { text-wrap: pretty; }
   }
 }
 
-details > summary { list-style: none; }
-details > summary::-webkit-details-marker { display: none; }
+/* Botón principal: pill verde petróleo con respuesta al presionar */
+@utility btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  border-radius: 999px;
+  padding: 0.95rem 1.6rem;
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1;
+  white-space: nowrap;
+  transition: background-color 160ms ease, color 160ms ease, transform 140ms var(--ease-out);
+  &:active { transform: scale(0.97); }
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -120,4 +101,20 @@ details > summary::-webkit-details-marker { display: none; }
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* Momento de entrada único: el marco del video se abre como una puerta seccional (de abajo hacia arriba). */
+@keyframes frame-open {
+  from { clip-path: inset(100% 0 0 0 round var(--radius-frame)); }
+  to { clip-path: inset(0 0 0 0 round var(--radius-frame)); }
+}
+@keyframes copy-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+@utility animate-frame-open {
+  animation: frame-open 1100ms var(--ease-in-out) 120ms both;
+}
+@utility animate-copy-in {
+  animation: copy-in 600ms var(--ease-out) both;
 }

@@ -20,6 +20,7 @@ npm start
 - `public/proyectos`, `public/video`, `public/marcas`: fotos y videos reales del negocio, optimizados (WebP y MP4/WebM).
 - `public/llms.txt`: resumen del negocio para buscadores con IA.
 - `docs/PLAN-REDISENO.md`: plan de rediseño completo.
+- `PRODUCT.md` y `DESIGN.md`: contexto del producto y sistema visual (verde petróleo institucional, sin degradados). Léelos antes de cambiar el diseño.
 
 ## Antes de lanzar
 

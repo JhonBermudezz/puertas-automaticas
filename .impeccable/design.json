@@ -1,0 +1,17 @@
+{
+  "northStar": "El folleto de una empresa seria",
+  "motion": {
+    "ease-out": "cubic-bezier(0.23, 1, 0.32, 1)",
+    "ease-in-out": "cubic-bezier(0.77, 0, 0.175, 1)",
+    "press": "transform 140ms ease-out, scale 0.97",
+    "hero-frame-open": "clip-path inset(100% 0 0 0) -> inset(0) 1100ms ease-in-out, 120ms delay",
+    "service-swap": "clip-path inset(100% 0 0 0) -> inset(0) 700ms ease-in-out"
+  },
+  "shadows": {
+    "nav-pill": "0 1px 2px rgb(14 26 23 / 0.06)",
+    "floating-action": "0 10px 30px -8px rgb(10 42 36 / 0.55)"
+  },
+  "focus": "2px solid #8db33a, offset 3px",
+  "breakpoints": { "sm": "640px", "md": "768px", "lg": "1024px", "xl": "1280px" },
+  "rules": ["No gradients", "Scarce lime", "No eyebrows", "One CTA label: Cotizar por WhatsApp", "Real photography only"]
+}

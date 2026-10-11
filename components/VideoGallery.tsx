@@ -1,125 +1,69 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
-import { Play, X } from "lucide-react";
+import { useState } from "react";
+import { Play } from "@phosphor-icons/react/dist/ssr";
 import type { Video } from "@/lib/site";
 
-/** Tarjetas con vista previa al pasar el mouse + reproductor a pantalla completa. */
+/** Reproductor destacado con lista de videos al lado (sin ventanas modales). */
 export function VideoGallery({ videos }: { videos: Video[] }) {
-  const [active, setActive] = useState<Video | null>(null);
-
-  useEffect(() => {
-    if (!active) return;
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setActive(null);
-    window.addEventListener("keydown", onKey);
-    document.body.style.overflow = "hidden";
-    return () => {
-      window.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
-    };
-  }, [active]);
+  const [active, setActive] = useState(0);
+  const [playing, setPlaying] = useState(false);
+  const v = videos[active];
 
   return (
-    <>
-      <ul className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
-        {videos.map((v, i) => (
-          <li key={v.slug} className={i === 0 ? "col-span-2 row-span-2" : ""}>
-            <VideoCard video={v} big={i === 0} onOpen={() => setActive(v)} />
+    <div className="grid gap-6 lg:grid-cols-[1.6fr_1fr]">
+      <div>
+        <div className="relative aspect-video overflow-hidden rounded-[var(--radius-frame)] bg-petrol-950">
+          {playing ? (
+            <video
+              key={v.slug}
+              className="size-full object-contain"
+              src={`/video/${v.slug}.mp4`}
+              poster={`/video/${v.slug}.webp`}
+              controls
+              autoPlay
+              playsInline
+            />
+          ) : (
+            <button type="button" onClick={() => setPlaying(true)} className="group absolute inset-0" aria-label={`Reproducir: ${v.title}`}>
+              <Image src={`/video/${v.slug}.webp`} alt="" fill sizes="(min-width:1024px) 60vw, 100vw" className={v.vertical ? "object-contain" : "object-cover"} />
+              <span className="absolute inset-0 bg-petrol-950/25 transition-colors duration-200 group-hover:bg-petrol-950/40" />
+              <span className="absolute top-1/2 left-1/2 grid size-16 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white text-petrol-900 shadow-lg transition-transform duration-200 ease-[var(--ease-out)] group-hover:scale-105 group-active:scale-95">
+                <Play size={26} weight="fill" className="translate-x-0.5" />
+              </span>
+            </button>
+          )}
+        </div>
+        <p className="mt-4 font-semibold text-ink">{v.title}</p>
+        <p className="text-sm text-ink-soft">Puerta {v.type.toLowerCase()}</p>
+      </div>
+
+      <ul className="grid max-h-[32rem] content-start gap-2 overflow-y-auto pr-1">
+        {videos.map((item, i) => (
+          <li key={item.slug}>
+            <button
+              type="button"
+              onClick={() => {
+                setActive(i);
+                setPlaying(true);
+              }}
+              aria-current={i === active ? "true" : undefined}
+              className={`flex w-full items-center gap-4 rounded-2xl p-2 text-left transition-colors duration-150 ${
+                i === active ? "bg-surface ring-1 ring-line" : "hover:bg-surface/70"
+              }`}
+            >
+              <span className="relative aspect-video w-28 shrink-0 overflow-hidden rounded-xl bg-petrol-950">
+                <Image src={`/video/${item.slug}.webp`} alt="" fill sizes="112px" className="object-cover" />
+              </span>
+              <span>
+                <span className="block font-medium text-ink">{item.title}</span>
+                <span className="text-sm text-ink-soft">Puerta {item.type.toLowerCase()}</span>
+              </span>
+            </button>
           </li>
         ))}
       </ul>
-
-      <AnimatePresence>
-        {active && (
-          <motion.div
-            role="dialog"
-            aria-modal="true"
-            aria-label={active.title}
-            className="fixed inset-0 z-[60] grid place-items-center bg-navy-950/95 p-4 backdrop-blur-xl"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={() => setActive(null)}
-          >
-            <button
-              type="button"
-              aria-label="Cerrar video"
-              className="absolute top-5 right-5 grid size-12 place-items-center rounded-full bg-white/10 text-white transition hover:bg-white/20"
-              onClick={() => setActive(null)}
-            >
-              <X />
-            </button>
-            <motion.div
-              initial={{ scale: 0.92, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.95, opacity: 0 }}
-              transition={{ type: "spring", damping: 26, stiffness: 260 }}
-              className="w-full max-w-5xl"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <video
-                className={`mx-auto max-h-[80svh] rounded-2xl bg-black shadow-2xl ${active.vertical ? "w-auto" : "w-full"}`}
-                src={`/video/${active.slug}.mp4`}
-                poster={`/video/${active.slug}.webp`}
-                controls
-                autoPlay
-                playsInline
-              />
-              <p className="mt-4 text-center font-display text-lg font-semibold text-white">{active.title}</p>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </>
-  );
-}
-
-function VideoCard({ video, big, onOpen }: { video: Video; big: boolean; onOpen: () => void }) {
-  const ref = useRef<HTMLVideoElement>(null);
-  const [hover, setHover] = useState(false);
-
-  return (
-    <button
-      type="button"
-      onClick={onOpen}
-      onMouseEnter={() => {
-        setHover(true);
-        ref.current?.play().catch(() => {});
-      }}
-      onMouseLeave={() => {
-        setHover(false);
-        ref.current?.pause();
-      }}
-      className="group relative block aspect-square w-full overflow-hidden rounded-2xl bg-navy-800 text-left sm:rounded-3xl"
-      aria-label={`Reproducir video: ${video.title}`}
-    >
-      <Image
-        src={`/video/${video.slug}.webp`}
-        alt={video.title}
-        fill
-        sizes={big ? "(min-width:1024px) 50vw, 100vw" : "(min-width:1024px) 25vw, 50vw"}
-        className="object-cover transition duration-700 group-hover:scale-105"
-      />
-      {/* Vista previa silenciosa solo en escritorio */}
-      <video
-        ref={ref}
-        className={`absolute inset-0 hidden size-full object-cover transition-opacity duration-500 md:block ${hover ? "opacity-100" : "opacity-0"}`}
-        src={`/video/${video.slug}.mp4`}
-        muted
-        loop
-        playsInline
-        preload="none"
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-navy-950/90 via-navy-950/10 to-transparent" />
-      <span className={`absolute top-1/2 left-1/2 grid -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-white/15 text-white backdrop-blur-md transition duration-500 group-hover:scale-110 group-hover:bg-brand-lime group-hover:text-navy-950 ${big ? "size-20" : "size-12"}`}>
-        <Play className={`${big ? "size-8" : "size-5"} translate-x-0.5 fill-current`} />
-      </span>
-      <span className="absolute inset-x-0 bottom-0 p-4 sm:p-5">
-        <span className="text-xs font-semibold tracking-wider text-brand-lime uppercase">{video.type}</span>
-        <span className={`block font-display font-semibold text-white ${big ? "text-xl sm:text-2xl" : "text-sm sm:text-base"}`}>{video.title}</span>
-      </span>
-    </button>
+    </div>
   );
 }

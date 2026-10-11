@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Send } from "lucide-react";
+import { PaperPlaneTilt } from "@phosphor-icons/react/dist/ssr";
 import { coverage, services, whatsappUrl } from "@/lib/site";
 
-/** Formulario que arma un mensaje de WhatsApp (sin servidor, sin spam). */
+/** Arma un mensaje de WhatsApp con los datos del formulario (sin servidor). */
 export function ContactForm() {
   const [sent, setSent] = useState(false);
 
@@ -24,19 +24,19 @@ export function ContactForm() {
   }
 
   const field =
-    "mt-2 w-full rounded-2xl border-0 bg-paper px-4 py-3.5 text-navy-800 ring-1 ring-navy-800/10 transition outline-none placeholder:text-muted/60 focus:bg-white focus:ring-2 focus:ring-brand-teal";
+    "mt-2 w-full rounded-xl border-0 bg-ground px-4 py-3.5 text-ink ring-1 ring-line transition-shadow duration-150 outline-none placeholder:text-ink-soft focus:bg-surface focus:ring-2 focus:ring-petrol-700";
 
   return (
-    <form onSubmit={onSubmit} className="space-y-5">
+    <form onSubmit={onSubmit} className="grid gap-5">
       <div>
-        <label htmlFor="nombre" className="text-sm font-semibold text-navy-800">Nombre</label>
-        <input id="nombre" name="nombre" required autoComplete="name" placeholder="Tu nombre" className={field} />
+        <label htmlFor="nombre" className="font-medium text-ink">Nombre</label>
+        <input id="nombre" name="nombre" required autoComplete="name" className={field} />
       </div>
       <div className="grid gap-5 sm:grid-cols-2">
         <div>
-          <label htmlFor="servicio" className="text-sm font-semibold text-navy-800">¿Qué necesitas?</label>
+          <label htmlFor="servicio" className="font-medium text-ink">Servicio</label>
           <select id="servicio" name="servicio" required className={field} defaultValue="">
-            <option value="" disabled>Elige un servicio</option>
+            <option value="" disabled>Elige una opción</option>
             {services.map((s) => (
               <option key={s.slug}>{s.name}</option>
             ))}
@@ -44,7 +44,7 @@ export function ContactForm() {
           </select>
         </div>
         <div>
-          <label htmlFor="municipio" className="text-sm font-semibold text-navy-800">Municipio</label>
+          <label htmlFor="municipio" className="font-medium text-ink">Municipio</label>
           <select id="municipio" name="municipio" required className={field} defaultValue="Villavicencio">
             {coverage.map((c) => (
               <option key={c}>{c}</option>
@@ -54,16 +54,18 @@ export function ContactForm() {
         </div>
       </div>
       <div>
-        <label htmlFor="mensaje" className="text-sm font-semibold text-navy-800">Cuéntanos más (opcional)</label>
-        <textarea id="mensaje" name="mensaje" rows={4} placeholder="Ej: puerta corrediza de 4 metros, quiero automatizarla" className={field} />
+        <label htmlFor="mensaje" className="font-medium text-ink">Detalles (opcional)</label>
+        <textarea id="mensaje" name="mensaje" rows={4} className={field} aria-describedby="mensaje-ayuda" />
+        <p id="mensaje-ayuda" className="mt-2 text-sm text-ink-soft">Por ejemplo: puerta corrediza de 4 metros que quiero automatizar.</p>
       </div>
-      <button
-        type="submit"
-        className="group inline-flex w-full items-center justify-center gap-2.5 rounded-full bg-whatsapp px-7 py-4 font-semibold text-navy-950 shadow-xl shadow-whatsapp/25 transition hover:-translate-y-0.5"
-      >
-        Enviar por WhatsApp <Send className="size-4 transition group-hover:translate-x-1" />
+      <button type="submit" className="btn w-full bg-petrol-900 text-on-petrol hover:bg-petrol-800">
+        Enviar por WhatsApp <PaperPlaneTilt size={18} />
       </button>
-      {sent && <p className="text-center text-sm text-brand-green" role="status">¡Listo! Se abrió WhatsApp con tu mensaje.</p>}
+      {sent && (
+        <p className="text-center text-sm text-petrol-700" role="status">
+          Se abrió WhatsApp con tu mensaje. Solo falta enviarlo.
+        </p>
+      )}
     </form>
   );
 }
