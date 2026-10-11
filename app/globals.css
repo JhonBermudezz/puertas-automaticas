@@ -19,6 +19,20 @@
   --color-lime: #8db33a;
   --color-lime-soft: #c9dc93;
 
+  /* v2: acero y grafito */
+  --color-steel-50: #f5f6f6;
+  --color-steel-100: #eceeed;
+  --color-steel-200: #dfe3e1;
+  --color-steel-300: #c3c9c7;
+  --color-steel-500: #7c8683;
+  --color-steel-700: #4a5351;
+  --color-graphite-950: #111514;
+  --color-graphite-900: #191e1d;
+  --color-graphite-800: #232927;
+  --color-graphite-700: #2f3634;
+  --color-whatsapp: #25d366;
+  --font-v2: var(--font-urbanist), ui-sans-serif, system-ui, sans-serif;
+
   --font-display: var(--font-schibsted), ui-sans-serif, system-ui, sans-serif;
   --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
 
@@ -117,4 +131,30 @@ a { text-underline-offset: 0.2em; }
 }
 @utility animate-copy-in {
   animation: copy-in 600ms var(--ease-out) both;
+}
+
+/* v2 */
+@keyframes marquee-x {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@utility animate-marquee-x {
+  animation: marquee-x 45s linear infinite;
+}
+@keyframes bezel-in {
+  from { opacity: 0; transform: translateY(24px) scale(0.985); }
+  to { opacity: 1; transform: none; }
+}
+@utility animate-bezel-in {
+  animation: bezel-in 900ms var(--ease-out) 100ms both;
+}
+.v2 h1, .v2 h2, .v2 h3, .v2 h4 {
+  font-family: var(--font-v2);
+  letter-spacing: -0.03em;
+}
+/* Revelado tipo cortina enrollable: la imagen aparece de abajo hacia arriba */
+.shutter[data-state="armed"] { clip-path: inset(100% 0 0 0 round var(--radius-frame)); }
+.shutter[data-state="open"] {
+  clip-path: inset(0 0 0 0 round var(--radius-frame));
+  transition: clip-path 1000ms var(--ease-in-out);
 }
