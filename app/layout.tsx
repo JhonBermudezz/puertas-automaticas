@@ -20,7 +20,10 @@ export const metadata: Metadata = {
   authors: [{ name: site.founder }],
   creator: site.name,
   formatDetection: { telephone: true },
-  robots: { index: true, follow: true, "max-image-preview": "large" },
+  // En la vista previa de GitHub Pages no se indexa (evita contenido duplicado con el dominio real).
+  robots: process.env.NEXT_PUBLIC_PREVIEW
+    ? { index: false, follow: false }
+    : { index: true, follow: true, "max-image-preview": "large" },
   other: {
     "geo.region": "CO-MET",
     "geo.placename": "Villavicencio",

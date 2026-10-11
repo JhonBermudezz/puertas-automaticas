@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
+import { asset } from "@/lib/asset";
 
 /** Video silencioso en bucle que solo se reproduce mientras está en pantalla. */
 export function BentoVideo({ slug, title }: { slug: string; title: string }) {
@@ -25,7 +26,7 @@ export function BentoVideo({ slug, title }: { slug: string; title: string }) {
     <>
       <Image src={`/video/${slug}.webp`} alt={title} fill sizes="(min-width:1024px) 50vw, 100vw" className="object-cover" />
       {allowed && (
-        <video ref={ref} className="absolute inset-0 size-full object-cover" src={`/video/${slug}.mp4`} muted loop playsInline preload="none" aria-hidden="true" />
+        <video ref={ref} className="absolute inset-0 size-full object-cover" src={asset(`/video/${slug}.mp4`)} muted loop playsInline preload="none" aria-hidden="true" />
       )}
     </>
   );

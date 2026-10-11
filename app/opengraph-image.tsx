@@ -5,6 +5,7 @@ import { join } from "node:path";
 export const alt = "Puertas Automáticas del Llano, Villavicencio, Meta";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
+export const dynamic = "force-static";
 
 export default async function Image() {
   const [bg, logo] = await Promise.all([

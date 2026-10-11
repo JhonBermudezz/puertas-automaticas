@@ -22,6 +22,12 @@ npm start
 - `docs/PLAN-REDISENO.md`: plan de rediseño completo.
 - `PRODUCT.md` y `DESIGN.md`: contexto del producto y sistema visual (verde petróleo institucional, sin degradados). Léelos antes de cambiar el diseño.
 
+## Vista previa en GitHub Pages
+
+Cada push a la rama principal ejecuta `.github/workflows/deploy-pages.yml`, que compila el sitio estático (`GITHUB_PAGES=true npm run build`, salida en `out/`) y lo publica en https://jhonbermudezz.github.io/puertas-automaticas/ (versión 1 en `/` y versión 2 en `/v2/`). La vista previa lleva `noindex` para no competir con el dominio real.
+
+Para compilar igual en local: `GITHUB_PAGES=true npm run build` y servir la carpeta `out/` bajo `/puertas-automaticas/`.
+
 ## Antes de lanzar
 
 - Confirmar los municipios de cobertura (`coverage` en `lib/site.ts`) y las coordenadas.

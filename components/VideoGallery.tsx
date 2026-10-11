@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { Play } from "@phosphor-icons/react/dist/ssr";
 import type { Video } from "@/lib/site";
+import { asset } from "@/lib/asset";
 
 /** Reproductor destacado con lista de videos al lado (sin ventanas modales). */
 export function VideoGallery({ videos }: { videos: Video[] }) {
@@ -19,8 +20,8 @@ export function VideoGallery({ videos }: { videos: Video[] }) {
             <video
               key={v.slug}
               className="size-full object-contain"
-              src={`/video/${v.slug}.mp4`}
-              poster={`/video/${v.slug}.webp`}
+              src={asset(`/video/${v.slug}.mp4`)}
+              poster={asset(`/video/${v.slug}.webp`)}
               controls
               autoPlay
               playsInline

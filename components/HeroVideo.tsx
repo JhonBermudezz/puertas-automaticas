@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { asset } from "@/lib/asset";
 
 /** Póster primero (LCP rápido); el video solo se activa sin "ahorro de datos" ni "reducir movimiento". */
 export function HeroVideo({ name, alt }: { name: string; alt: string }) {
@@ -28,8 +29,8 @@ export function HeroVideo({ name, alt }: { name: string; alt: string }) {
           aria-hidden="true"
           onCanPlay={() => setReady(true)}
         >
-          <source src={`/video/${name}.webm`} type="video/webm" />
-          <source src={`/video/${name}.mp4`} type="video/mp4" />
+          <source src={asset(`/video/${name}.webm`)} type="video/webm" />
+          <source src={asset(`/video/${name}.mp4`)} type="video/mp4" />
         </video>
       )}
     </>
